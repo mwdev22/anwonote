@@ -24,15 +24,22 @@
                 <div class="flex justify-center font-semibold text-xl w-64 bg-teal-400 hover:bg-teal-500 items-center rounded-xl">
                     <a href="{% url 'topic:newCategory' %}" class="px-6 py-6">Dodaj nową kategorie</a>
                 </div>
-
-                <div class="flex justify-center font-semibold text-xl w-64 bg-teal-400 hover:bg-teal-500 items-center rounded-xl">
-                {% for category in categories %}
-                
-                {% endfor %}
+                <div class="flex justify-center py-4 px-4">
+                <form action="{% url 'topic:delete_category' %}" method="post">
+                {% csrf_token %}
+                <select name="category_id" class="px-4 py-4 rounded-xl">
+                    {% for category in categories%}
+                        {% if request.user == category.created_by %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <br>
+                <br>
+                <input type="submit" value="Usuń" class="w-full px-4 py-4 rounded-xl cursor-pointer bg-white hover:bg-red-600">
+                </form>
                 </div>
-                
             {% endif %}
-            
         </div>
         <div class="w-screen">
             {% for topic in page %}

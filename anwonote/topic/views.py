@@ -36,7 +36,6 @@ def full(request, pk):
 def new(request):
     if request.method == 'POST':
         form = NewPostForm(request.POST)
-
         if form.is_valid():
             topic = form.save(commit=False)
             topic.created_by = request.user
@@ -73,7 +72,8 @@ def newCategory(request):
     })
 
 @login_required
-def deleteCat(request, pk):
-    category_to_delete = Category.objects.get(pk=pk)
+def delete_category(request):
+    category_id= request.POST.get('category_id')
+    category_to_delete = Category.objects.get(pk=category_id)
     category_to_delete.delete()
     return redirect('/')
