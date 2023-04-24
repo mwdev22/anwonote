@@ -18,6 +18,7 @@ class Category(models.Model):
 
 
 class Topic(models.Model):
+# 1 element tupli w kodzie html, 2 element widoczny w formularzu
     STATUS_CHOICES = (
         ('tylko dla mnie', 'Tylko dla mnie'),
         ('dla wszystkich', 'Dla wszystkich'),

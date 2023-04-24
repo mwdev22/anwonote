@@ -29,15 +29,15 @@
         <div class="w-screen">
             {% for topic in page %}
             {% if category_id == category.name %}
-                {% if topic.status == 'Dla wszystkich' or topic.created_by == request.user  or (request.user.is_authenticated and topic.status == 'Dla zalogowanych') %}
-                    <div class="border border-black">
+                {% if topic.status == 'dla wszystkich' or request.user == topic.created_by or request.user.is_authenticated and topic.status == 'dla zalogowanych' %}
+                <div class="border border-black">
                     <div class="px-6 py-4 flex items-center justify-center">
-                    <a href="{% url 'topic:full' topic.id %}" class="font-semibold text-2xl hover:text-red-400"><p>{{ topic.name }}</p></a>
+                        <a href="{% url 'topic:full' topic.id %}" class="font-semibold text-2xl hover:text-red-400"><p>{{ topic.name }}</p></a>
                     </div>
                     <div>
-                    <p class="px-6 py-6 text-xl">{{topic.content|truncatechars:70}}</p>
+                        <p class="px-6 py-6 text-xl">{{topic.content|truncatechars:70}}</p>
                     </div>
-                    </div>
+                </div>
                 {% endif %}
             {% endif %}
             {% endfor %}
