@@ -51,7 +51,8 @@ def new(request):
 @login_required
 def delete_post(request, pk):
     post_to_delete = Topic.objects.get(pk=pk)
-    post_to_delete.delete()
+    post_to_delete.status = 'Ukryty'
+    post_to_delete.save()
 
     return redirect('/')
 
