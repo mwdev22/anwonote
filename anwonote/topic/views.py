@@ -17,12 +17,13 @@ def filter(request):
     page = Paginator(topics, 9)
     page_list = request.GET.get('page')
     page = page.get_page(page_list)
-    return render(request, 'topic/filter.html',{
+    context = {
         'topics':topics,
         'categories':categories,
         'page':page,
         'default':category_id
-    })
+    }
+    return render(request, 'topic/filter.html', context)
 
 # konkretny post 
 def full(request, pk):
@@ -37,6 +38,7 @@ def new(request):
     if request.method == 'POST':
         form = NewPostForm(request.POST)
         if form.is_valid():
+    # commit=False daje możliwość zmiany dowolnego atrybutu rekordu przed jego zapisaniem w bazie
             topic = form.save(commit=False)
             topic.created_by = request.user
             topic.save()
@@ -51,6 +53,7 @@ def new(request):
 @login_required
 def delete_post(request, pk):
     post_to_delete = Topic.objects.get(pk=pk)
+#   na żądanie klienta posty są archiwizowane a nie usuwane, aby miał wgląd na posty usuwane przez jego pracowników
     post_to_delete.status = 'Ukryty'
     post_to_delete.save()
 

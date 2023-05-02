@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from topic.models import Category
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
@@ -32,3 +34,17 @@ class SignupForm(UserCreationForm):
         'placeholder':'Powtórz hasło',
         'class': 'w-full py-4 px-6 rounded-xl',
     }))
+'''
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+
+        Category.objects.create(
+            name=f"Kategoria użytkownika {user.username}",
+            created_by=user
+        )
+
+        return user
+'''
