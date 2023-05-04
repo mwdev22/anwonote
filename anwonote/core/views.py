@@ -39,10 +39,12 @@ def signup(request):
 # !!! przesyłanie cookies podczas logowania !!!
 class Logowanie(LoginView):
     def form_valid(self, form):
-    #   sprawdzanie poprawności formularza
         response = super().form_valid(form)
-        response.set_cookie('username', form.cleaned_data['username'])
-        response.set_cookie('login_status', True)
+        remember_me = self.request.POST.get('remember_me')
+        if remember_me == 'true':
+            response.set_cookie('remember_me', True, max_age=3600*24*7)
+            response.set_cookie('username', form.cleaned_data['username'])
+            response.set_cookie('login_status', True)
         return response
     
 class Wylogowanie(LogoutView):
@@ -52,4 +54,5 @@ class Wylogowanie(LogoutView):
 #   Usuwanie cookies po nazwie 
         response.delete_cookie('username')
         response.delete_cookie('login_status')
+        response.delete_cookie('remember_me')
         return response
