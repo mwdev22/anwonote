@@ -5,10 +5,11 @@ from django.http import HttpResponse
 from topic.models import Category
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={
+    username = forms.CharField(min_length=5, max_length=20, widget=forms.TextInput(attrs={
         'placeholder':'Nazwa Użytkownika',
         'class': 'w-full py-4 px-6 rounded-xl'
-    }))
+    }),help_text = 'Nazwa użytkownika powinna mieścić między 5 a 20 znakami.'
+    )
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Hasło',
         'class': 'w-full py-4 px-6 rounded-xl',

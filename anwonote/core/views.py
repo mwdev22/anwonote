@@ -19,7 +19,6 @@ def index(request):
         'page':page,
         'topics':topics,
     }
-    
     return render(request, 'core/index.html', context)
 def signup(request):
     form = SignupForm()
