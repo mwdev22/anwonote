@@ -12,16 +12,13 @@ def filter(request):
     if category_id:
         topics = Topic.objects.filter(category_id=category_id)
     else:
-        topics = Topic.objects.all()
         return redirect('/')
     page = Paginator(topics, 9)
     page_list = request.GET.get('page')
     page = page.get_page(page_list)
     context = {
-        'topics':topics,
         'categories':categories,
         'page':page,
-        'default':category_id
     }
     return render(request, 'topic/filter.html', context)
 

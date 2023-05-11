@@ -17,7 +17,6 @@ def index(request):
     context = {
         'categories':categories,
         'page':page,
-        'topics':topics,
     }
     return render(request, 'core/index.html', context)
 def signup(request):

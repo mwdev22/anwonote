@@ -1,29 +1,25 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
-from django.utils import timezone
+from topic.factories import CategoryFactory, TopicFactory
+from topic.models import Topic
 
-from topic.models import Category, Topic
+ 
 
 class CategoryTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testname', password='secret')
-        
-        self.category = Category(name='test', created_by=self.user)
-    
+        self.categories = CategoryFactory.create_batch(10)
     def test_category_creation(self):
-        self.category.save()
-        self.assertIsNotNone(self.category.id)
+        for cat in self.categories:
+            cat.save()
+            self.assertIsNotNone(cat.id)
 
 class TopicTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testname', password='secret')
-        self.category = Category.objects.create(name='test', created_by=self.user)
-        
-        self.topic = Topic(category=self.category, name='test', content= 'testcontent', status='Tylko dla mnie',created_at = timezone.now(), created_by=self.user)
-    
-    def test_category_creation(self):
-        self.topic.save()
-        self.assertIsNotNone(self.topic.id)
-        
-        
-        
+        self.topics = TopicFactory.create_batch(10)
+    def test_topic_creation(self):
+        for topic in self.topics:
+            topic.save()
+            self.assertIsNotNone(topic.id)
+    def test_status_test(self):
+        for topic in self.topics:
+        #   sprawdzanie poprawności wybranego statusu (głównie na potrzeby testu, na stronie i tak są jako choicefield)
+            self.assertIn(topic.status,  [choice[0] for choice in Topic.STATUS_CHOICES])
