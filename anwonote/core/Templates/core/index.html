@@ -23,16 +23,13 @@
     
             {% if request.user.is_authenticated %}
                 <div class="flex justify-center font-semibold text-xl w-64 bg-teal-400 hover:bg-teal-500 items-center rounded-xl">
-                    <a href="{% url 'topic:newCategory' %}" class="px-6 py-6">Dodaj nową kategorie</a>
+                    <a href="{% url 'topic:new_category' %}" class="px-6 py-6">Dodaj nową kategorie</a>
                 </div>
                 {% include 'delcats.html' with categories=categories user=request.user %}
             {% endif %}
         </div>
         <div class="w-screen">
             {% for topic in page %}
-            {%if category.id == category_id %}
-                {% if topic.status != 'Ukryty' %}
-                    {% if topic.status == 'dla wszystkich' or request.user == topic.created_by or request.user.is_authenticated and topic.status == 'dla zalogowanych' %}
                     <div class="border border-black">
                         <div class="px-6 py-4 flex items-center justify-center">
                             <a href="{% url 'topic:full' topic.id %}" class="font-semibold text-2xl hover:text-red-400"><p>{{ topic.name }}</p></a>
@@ -41,9 +38,6 @@
                             <p class="px-6 py-6 text-xl">{{topic.content|truncatechars:70}}</p>
                         </div>
                     </div>
-                    {% endif %}
-                {% endif %}
-            {% endif %}
             {% endfor %}
             {% include 'pagination.html' with page=page %}
         </div>

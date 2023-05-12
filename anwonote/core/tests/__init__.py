@@ -1,1 +1,0 @@
-# pozwala pythonowi znaleźć testy

@@ -1,18 +1,27 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 from .models import Topic, Category
 from .forms import NewPostForm,NewCategoryForm
 
 # filtrowanie
 def filter(request):
-    categories = Category.objects.all()
-    category_id = request.GET.get('category', 0)
+    category_id = request.GET.get('category')
     if category_id:
-        topics = Topic.objects.filter(category_id=category_id)
+    #   Wyświetlanie postów według filtrów
+        if request.user.is_authenticated:
+            topics = Topic.objects.filter(
+            Q(status='dla wszystkich') & Q(category_id=category_id)
+            | Q(created_by=request.user) & Q(category_id=category_id)
+            | Q(status='dla zalogowanych') & Q(category_id=category_id)
+        )
+        else:
+            topics = Topic.objects.filter(status='dla wszystkich')
     else:
         return redirect('/')
+    categories = Category.objects.all()
     page = Paginator(topics, 9)
     page_list = request.GET.get('page')
     page = page.get_page(page_list)
@@ -31,7 +40,7 @@ def full(request, pk):
 
 # nowy post
 @login_required
-def new(request):
+def new_post(request):
     if request.method == 'POST':
         form = NewPostForm(request.POST)
         if form.is_valid():
@@ -50,14 +59,12 @@ def new(request):
 @login_required
 def delete_post(request, pk):
     post_to_delete = Topic.objects.get(pk=pk)
-#   na żądanie klienta posty są archiwizowane a nie usuwane, aby miał wgląd na posty usuwane przez jego pracowników
-    post_to_delete.status = 'Ukryty'
-    post_to_delete.save()
-
+#   usuwanie posta
+    post_to_delete.delete()
     return redirect('/')
 
 @login_required
-def newCategory(request):
+def new_category(request):
     if request.method == 'POST':
         form = NewCategoryForm(request.POST)
 

@@ -1,18 +1,25 @@
 from django.shortcuts import render,redirect
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Q
 
 from topic.models import Category, Topic
 from .forms import SignupForm
 
+from rest_framework import viewsets
+from .serializers import CategorySerializer, TopicSerializer
 
 # strona tytułowa
 def index(request):
-    topics = Topic.objects.all()
+    if request.user.is_authenticated:
+        topics = Topic.objects.filter(
+            Q(status='dla wszystkich') | Q(created_by=request.user) | Q(status='dla zalogowanych')
+        )
+    else:
+        topics = Topic.objects.filter(status='dla wszystkich')
     categories = Category.objects.all()
     page = Paginator(topics, 9)
-    page_list = request.GET.get('page')
+    page_list = request.GET.get('page', 1)
     page = page.get_page(page_list)
     context = {
         'categories':categories,
