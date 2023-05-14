@@ -14,10 +14,10 @@
                 <p class="flex justify-center text-2xl font-semibold">
                     Zalogowano jako: {{user.username}} 
                 </p>
-                <a href="{% url 'logout' %}" class=" flex items-center px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl hover:bg-teal-700">Wyloguj</a>
+                <a href="{% url 'logout' %}" class="flex items-center px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl hover:bg-teal-700">Wyloguj</a>
             {% else %}
                 <a href="{% url 'signup' %}" class="flex items-center px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl hover:bg-teal-700">Zarejestruj się</a>
-                <a href="{% url 'login' %}" class="flex items-center px-6 py-3 text-lg font-semibold bg-yellow-500 rounded-xl hover:bg-yellow-700">Zaloguj</a>
+                <a href="{% url 'login' %}" class="flex items-center px-6 py-3 text-lg font-semibold bg-yellow-400 rounded-xl hover:bg-yellow-700">Zaloguj</a>
             {% endif %}
             <div class="flex font-semibold text-2xl bg-teal-400 hover:bg-teal-500 items-center rounded-xl">
                 <a href="{% url 'topic:new_post' %}" class="px-6 py-6">Dodaj Post</a>

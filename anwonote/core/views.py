@@ -9,11 +9,13 @@ from .forms import SignupForm
 from rest_framework import viewsets
 from .serializers import CategorySerializer, TopicSerializer
 
-# strona tytułowa
+# strona główna
 def index(request):
     if request.user.is_authenticated:
         topics = Topic.objects.filter(
-            Q(status='dla wszystkich') | Q(created_by=request.user) | Q(status='dla zalogowanych')
+            Q(status='dla wszystkich') 
+            | Q(created_by=request.user) 
+            | Q(status='dla zalogowanych')
         )
     else:
         topics = Topic.objects.filter(status='dla wszystkich')
@@ -26,6 +28,8 @@ def index(request):
         'page':page,
     }
     return render(request, 'core/index.html', context)
+
+# strona rejestracji
 def signup(request):
     form = SignupForm()
     if request.method == 'POST':

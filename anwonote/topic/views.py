@@ -31,7 +31,7 @@ def filter(request):
     }
     return render(request, 'topic/filter.html', context)
 
-# konkretny post 
+# podgląd postu
 def full(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
     return render(request,'topic/full.html',{
@@ -39,7 +39,7 @@ def full(request, pk):
     })
 
 # nowy post
-@login_required
+
 def new_post(request):
     if request.method == 'POST':
         form = NewPostForm(request.POST)
@@ -56,14 +56,15 @@ def new_post(request):
     })
 
 # usunięcie posta
-@login_required
+
 def delete_post(request, pk):
     post_to_delete = Topic.objects.get(pk=pk)
 #   usuwanie posta
     post_to_delete.delete()
     return redirect('/')
 
-@login_required
+# nowa kategoria
+
 def new_category(request):
     if request.method == 'POST':
         form = NewCategoryForm(request.POST)
@@ -79,7 +80,8 @@ def new_category(request):
         'form':form,
     })
 
-@login_required
+# usunięcie kategorii
+
 def delete_category(request):
     category_id= request.POST.get('category_id')
     category_to_delete = Category.objects.get(pk=category_id)
