@@ -18,7 +18,7 @@ def filter(request):
             | Q(status='dla zalogowanych') & Q(category_id=category_id)
         )
         else:
-            topics = Topic.objects.filter(status='dla wszystkich')
+            topics = Topic.objects.filter(Q(status='dla wszystkich') & Q(category_id=category_id))
     else:
         return redirect('/')
     categories = Category.objects.all()

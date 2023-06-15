@@ -40,7 +40,7 @@ class TestViews(TestCase):
             'category':category.name,
             'name':'testname',
             'content':'testcontent',
-            'status':Topic.STATUS_CHOICES[1][1],
+            'status':'Tylko dla mnie'
         })
         self.assertEqual(response.status_code, 200)
 
