@@ -13,3 +13,4 @@ class TopicList(generics.ListCreateAPIView):
 class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
